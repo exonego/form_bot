@@ -19,8 +19,10 @@ sex_kb = InlineKeyboardMarkup(
 
 contact_kb = ReplyKeyboardMarkup(
     keyboard=[
-        KeyboardButton(text=LEXICON_RU["send_contact"], request_contact=True),
-        KeyboardButton(text=LEXICON_RU["not_send_contact"]),
+        [
+            KeyboardButton(text=LEXICON_RU["send_contact"], request_contact=True),
+            KeyboardButton(text=LEXICON_RU["not_send_contact"]),
+        ]
     ],
     resize_keyboard=True,
     input_field_placeholder=LEXICON_RU["just_click"],
