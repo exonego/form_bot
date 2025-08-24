@@ -4,7 +4,7 @@ from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
 
-from keyboards.form_kb import contact_kb
+from keyboards.form_kb import sex_kb, contact_kb
 from fsm_classes.fsm_classes import FSMFillForm
 from lexicon.lexicon import LEXICON_RU
 
@@ -38,7 +38,7 @@ async def process_invalid_age(message: Message):
 # react to incorrect sex
 @invalid_router.message(StateFilter(FSMFillForm.fill_sex))
 async def process_invalid_sex(message: Message):
-    await message.answer(text=LEXICON_RU["invalid_sex"])
+    await message.answer(text=LEXICON_RU["invalid_sex"], reply_markup=sex_kb)
 
 
 # react to incorrect contact

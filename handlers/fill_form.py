@@ -78,3 +78,4 @@ async def process_sent_contact(message: Message, state: FSMContext, db: dict):
     if message.contact is not None:
         await state.update_data(phone_number=message.contact.phone_number)
     db[message.from_user.id] = await state.get_data()
+    state.clear()
