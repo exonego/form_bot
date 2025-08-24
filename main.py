@@ -8,6 +8,8 @@ from aiogram.fsm.storage.memory import MemoryStorage
 
 from config.config import load_config
 from handlers.fill_form import fill_form_router
+from handlers.invalid import invalid_router
+from handlers.other import other_router
 from keyboards.menu_commands import set_main_menu
 from middlewares.not_banned import NotBannedMiddleware
 
@@ -47,6 +49,8 @@ async def main():
 
     # include routers into dispatcher
     dp.include_router(fill_form_router)
+    dp.include_router(invalid_router)
+    dp.include_router(other_router)
 
     # include middlewares into dispatcher
     dp.update.outer_middleware(NotBannedMiddleware())

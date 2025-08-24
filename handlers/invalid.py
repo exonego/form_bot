@@ -42,6 +42,6 @@ async def process_invalid_sex(message: Message):
 
 
 # react to incorrect contact
-@invalid_router(StateFilter(FSMFillForm.send_contact))
+@invalid_router.message(StateFilter(FSMFillForm.send_contact))
 async def process_invalid_contact(message: Message):
     await message.answer(text=LEXICON_RU["invalid_contact"], reply_markup=contact_kb)
