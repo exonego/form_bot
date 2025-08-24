@@ -33,7 +33,10 @@ async def process_cancel_command(message: Message, state: FSMContext):
 # react to command /showform not in FSMContext
 @fill_form_router.message(Command(commands="showform"), StateFilter(default_state))
 async def process_showform_command(message: Message, db: dict):
-    await message.answer(text=build_form(db, message.from_user.id))
+    if message.from_user.id in db:
+        await message.answer(text=build_form(db, message.from_user.id))
+    else:
+        await message.answer(text=LEXICON_RU[message.text])
 
 
 # react to command /fillform
