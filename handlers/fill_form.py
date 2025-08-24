@@ -39,7 +39,7 @@ async def process_cancel_command(message: Message, state: FSMContext):
 @fill_form_router.message(Command(commands="fillform"), StateFilter(default_state))
 async def process_fillform_command(message: Message, state: FSMContext):
     await message.answer(text=LEXICON_RU[message.text])
-    state.set_state(FSMFillForm.fill_name)
+    await state.set_state(FSMFillForm.fill_name)
 
 
 # react when user sent name
