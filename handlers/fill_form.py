@@ -14,7 +14,7 @@ fill_form_router = Router()
 
 # react to command /start
 @fill_form_router.message(CommandStart(), StateFilter(default_state))
-async def process_start_command(message: Message, db: dict):
+async def process_start_command(message: Message):
     await message.answer(text=LEXICON_RU[message.text])
 
 

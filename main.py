@@ -33,7 +33,9 @@ async def main():
 
     logger.info("Starting bot")
     # init bot and dispatcher
-    bot = Bot(token=config.bot.token)
+    bot = Bot(
+        token=config.bot.token, default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+    )
     dp = Dispatcher(storage=storage)
 
     # init database and include it into workflow_data
