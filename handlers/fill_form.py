@@ -8,7 +8,6 @@ from fsm_classes.fsm_classes import FSMFillForm
 from keyboards.form_kb import sex_kb, contact_kb
 from lexicon.lexicon import LEXICON_RU
 
-
 fill_form_router = Router()
 
 

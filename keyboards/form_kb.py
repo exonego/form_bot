@@ -25,5 +25,6 @@ contact_kb = ReplyKeyboardMarkup(
         ]
     ],
     resize_keyboard=True,
+    one_time_keyboard=True,
     input_field_placeholder=LEXICON_RU["just_click"],
 )
