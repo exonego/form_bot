@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 from aiogram import F, Router
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import CommandStart, Command, StateFilter
@@ -18,8 +16,6 @@ fill_form_router = Router()
 @fill_form_router.message(CommandStart(), StateFilter(default_state))
 async def process_start_command(message: Message, db: dict):
     await message.answer(text=LEXICON_RU[message.text])
-    if message.from_user.id not in db["users"]:
-        db["users"][message.from_user.id] = deepcopy(db.get("user_template"))
 
 
 # react to command /help
@@ -48,3 +44,38 @@ async def process_sent_name(message: Message, state: FSMContext):
     await message.answer(text=LEXICON_RU["valid_name"])
     await state.update_data(name=message.text)
     await state.set_state(FSMFillForm.fill_age)
+
+
+# react when user sent age
+@fill_form_router.message(
+    StateFilter(FSMFillForm.fill_age),
+    lambda x: x.text.isdigit() and 4 <= int(x.text) <= 120,
+)
+async def process_sent_age(message: Message, state: FSMContext):
+    await message.answer(text=LEXICON_RU["valid_age"], reply_markup=sex_kb)
+    await state.update_data(age=message.text)
+    await state.set_state(FSMFillForm.fill_sex)
+
+
+# react when user sent sex
+@fill_form_router.callback_query(
+    StateFilter(FSMFillForm.fill_sex), F.data.in_(["male", "female"])
+)
+async def process_sent_sex(callback: CallbackQuery, state: FSMContext):
+    await callback.answer(text=LEXICON_RU[callback.data])
+    await callback.message.answer(text=LEXICON_RU["valid_sex"], reply_markup=contact_kb)
+    await state.update_data(sex=callback.data)
+    await state.set_state(FSMFillForm.send_contact)
+
+
+# react when user sent contact or refused
+@fill_form_router.message(
+    StateFilter(
+        FSMFillForm.send_contact, F.text.in_(["contact_send", "contact_not_send"])
+    )
+)
+async def process_sent_contact(message: Message, state: FSMContext, db: dict):
+    await message.answer(text=LEXICON_RU["valid_contact"])
+    if message.contact is not None:
+        await state.update_data(phone_number=message.contact.phone_number)
+    db[message.from_user.id] = await state.get_data()
