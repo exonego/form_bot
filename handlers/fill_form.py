@@ -6,7 +6,7 @@ from aiogram.fsm.state import default_state
 
 from fsm_classes.fsm_classes import FSMFillForm
 from keyboards.form_kb import sex_kb, contact_kb
-from lexicon.lexicon import LEXICON_RU
+from lexicon.lexicon import LEXICON_RU, build_form
 
 fill_form_router = Router()
 
@@ -28,6 +28,12 @@ async def process_help_command(message: Message):
 async def process_cancel_command(message: Message, state: FSMContext):
     await message.answer(text=LEXICON_RU[message.text])
     await state.clear()
+
+
+# react to command /showform not in FSMContext
+@fill_form_router.message(Command(commands="showform"), StateFilter(default_state))
+async def process_showform_command(message: Message, db: dict):
+    await message.answer(text=build_form(db))
 
 
 # react to command /fillform

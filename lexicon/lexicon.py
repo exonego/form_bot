@@ -30,3 +30,21 @@ LEXICON_COMMANDS = {
     "/showform": "Показать анкету",
     "/help": "Cправка по работе бота",
 }
+
+
+def build_form(db: dict[str, str | None]) -> str:
+
+    name = db.get("name", "NO_INFO")
+    age = db.get("age", "NO_INFO")
+    sex = LEXICON_RU.get(db.get("sex"), "NO_INFO")
+    phone_number = db.get("phone_number", "NO_INFO")
+    
+    return "\n".join(
+        [
+            f"<b>Ваша анкета:</b>",
+            f"Ваше имя: <b>{name}</b>",
+            f"Ваш возраст: <b>{age}<b>",
+            f"Ваш пол: <b>{sex}</b>",
+            f"Ваш номер телефона: <b>{phone_number}</b>",
+        ]
+    )
