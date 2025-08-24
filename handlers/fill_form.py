@@ -70,11 +70,11 @@ async def process_sent_sex(callback: CallbackQuery, state: FSMContext):
 # react when user sent contact or refused
 @fill_form_router.message(
     StateFilter(FSMFillForm.send_contact),
-    F.text.in_(["contact_send", "contact_not_send"]),
+    F.text.in_(["contact_send", LEXICON_RU["not_send_contact"]]),
 )
 async def process_sent_contact(message: Message, state: FSMContext, db: dict):
     await message.answer(text=LEXICON_RU["valid_contact"])
     if message.contact is not None:
         await state.update_data(phone_number=message.contact.phone_number)
     db[message.from_user.id] = await state.get_data()
-    state.clear()
+    await state.clear()
