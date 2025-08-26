@@ -4,8 +4,7 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.fsm.storage.redis import RedisStorage
-from redis.asyncio import Redis
+from aiogram.fsm.storage.memory import MemoryStorage
 
 from config.config import load_config
 from handlers.fill_form import fill_form_router
@@ -31,9 +30,8 @@ async def main():
         style=config.log.style,
     )
 
-    # init redis and storage
-    redis = Redis(host="localhost")
-    storage = RedisStorage(redis=redis)
+    # init storage
+    storage = MemoryStorage()
 
     logger.info("Starting bot")
     # init bot and dispatcher
