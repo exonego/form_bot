@@ -1,0 +1,22 @@
+services:
+  redis:
+    image: redis:7.4-alpine
+    env_file: .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "127.0.0.1:6379:6379"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - app-net
+
+networks:
+  app-net:
